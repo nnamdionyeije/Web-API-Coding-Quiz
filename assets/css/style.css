@@ -67,6 +67,16 @@
     display: none;
 }
 
+/* questions */
 
+.question-setup {
+
+}
+
+.buttons{
+  display: flex;
+  flex-direction: column;
+  max-width: 10%;
+}
 
 
