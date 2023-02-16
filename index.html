@@ -12,12 +12,12 @@
     <header>
       <div class="head-top">
         <p class="score-link">View High Scores</p>
-        <p class="time">Time:</p>
+        <p class="time">Time: <span class="time-span">75</span></p>
       </div>
     </header>
 
     <main>
-      <section class="title visible">
+      <section class="title invisible">
         <div class="title-text">
           <h1>Coding Quiz Challenge</h1>
           <p>
@@ -57,25 +57,38 @@
             </button>
           </div>
         </div>
+        <div class="verdict-box invisible">
+          <p class="verdict"><span class="verdictText"></span></p>
+        </div>
       </section>
 
       <section class="initials invisible">
         <div class="initials-section">
           <h1>All done!</h1>
-          <p>Your Final Score is: 100.</p>
+          <p>Your Final Score is: <span class="final-score"></span>.</p>
           <article class="initials-entry">
             <p>Enter initials:</p>
-            <textarea name="initial" id="" cols="20" rows="1"></textarea>
-            <button class="all-buttons">Submit</button>
+            <form id="initials-form">
+              <input type="text" class="initials-input" />
+              <button class="submit-button">Submit</button>
+            </form>
           </article>
         </div>
-        <p class="verdict">Correct!</p>
+        <div class="verdict-box">
+          <p class="verdict"><span class="verdictTextInitials"></span></p>
+        </div>
       </section>
 
-      <!-- Link to the jQuery library -->
-      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-      <section class="High-Scores"></section>
+      <section class="High-Scores visible">
+        <div class="scores-section">
+          <h1>High scores</h1>
+          <ul class="scores-list"></ul>
+          <div class="scores-buttons">
+            <button>Go Back</button>
+            <button>Clear high scores</button>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer></footer>
