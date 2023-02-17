@@ -164,6 +164,23 @@ textarea {
   margin-top: 10px;
 }
 
+/* High Scores section */
+.high-scores {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20%;
+  max-width: 55%;
+}
+
+.scores-section {
+  padding-bottom: 10px;
+  /* border-bottom: 1px solid grey; */
+  margin-bottom: 5px;
+  max-width: 100%;
+}
+
+
+
 .invisible {
   display: none;
 }
