@@ -157,6 +157,11 @@ textarea {
   text-align: left;
 }
 
+.submit-button:hover {
+  background-color: var(--pink);
+}
+
+
 .verdict {
   color: gray;
   font-style: italic;
@@ -179,7 +184,23 @@ textarea {
   max-width: 100%;
 }
 
+.score-buttons {
+  padding: 5px 15px;
+  border: 0;
+  border-radius: 8px;
+  background-color: var(--dark);
+  color: var(--text);
+  font-size: 20px;
+  text-align: left;
+}
 
+.score-buttons:hover {
+  background-color: var(--pink);
+}
+
+#scores-list li {
+  background-color: #bd60e7;
+}
 
 .invisible {
   display: none;

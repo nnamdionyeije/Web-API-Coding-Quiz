@@ -17,7 +17,7 @@
     </header>
 
     <main>
-      <section class="title invisible">
+      <section class="title visible">
         <div class="title-text">
           <h1>Coding Quiz Challenge</h1>
           <p>
@@ -79,13 +79,18 @@
         </div>
       </section>
 
-      <section class="high-scores visible">
+      <section class="high-scores invisible">
         <div class="scores-section">
           <h1>High scores</h1>
-          <ul class="scores-list"></ul>
+          <!-- class="scores-list" -->
+          <ol id="scores-list">
+            <!-- <li>No scores yet</li> -->
+          </ol>
           <div class="scores-buttons">
-            <button>Go Back</button>
-            <button>Clear high scores</button>
+            <button class="score-buttons go-back">Go Back</button>
+            <button class="score-buttons clear-button">
+              Clear high scores
+            </button>
           </div>
         </div>
       </section>

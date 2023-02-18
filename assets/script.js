@@ -3,6 +3,7 @@ var startButton = document.querySelector(".start-button");
 var mainPage = document.querySelector(".title");
 var QuesPage = document.querySelector(".questions");
 var initPage = document.querySelector(".initials");
+var scoresPage = document.querySelector(".high-scores");
 var buttonAction = document.querySelector(".buttons");
 
 // selectors and related for the question text
@@ -27,6 +28,13 @@ var timer;
 
 //final score
 var scoreSpan = document.querySelector(".final-score");
+var initialsForm = document.querySelector("#initials-form");
+var initialsInput = document.querySelector(".initials-input");
+
+//High Scores Page
+var scoresOrderedList = document.querySelector("#scores-list");
+var backButton = document.querySelector(".go-back");
+var clearButton = document.querySelector(".clear-button");
 
 
 var currentQ = 1;
@@ -72,11 +80,16 @@ var questions = [
 ]
 
 
+// possibly have an endgame function to be called in multiple places
+
 function setQuestion() { //currentQ, buttonArray not sure if necessary to add those as inputs
     if (currentQ > questions.length) {
         QuesPage.setAttribute("class", "questions invisible");
         initPage.setAttribute("class", "initials visible");
         verdictTextInit.textContent = verdictValue;
+        scoreSpan.textContent = quizTime;
+        clearInterval(timer);
+        return;
     }
     
     questionTitle.textContent = questions[currentQ - 1].title;
@@ -103,8 +116,6 @@ function setTime() {
             timeSpan.textContent = "0";
             scoreSpan.textContent = "0";
             clearInterval(timer);
-            //As things are this leaves the application with a short gap between input and effects
-            // A possible option is to delegate some of these responsibilities to the buttons
         }
         
     }, 1000)
@@ -132,49 +143,37 @@ buttonAction.addEventListener("click", function(event) {
         } else {
             verdictValue = "Incorrect";
             quizTime -= 10; // look into how to make this function immediately subtract
+            if (quizTime <= 0) {
+                QuesPage.setAttribute("class", "questions invisible");
+                initPage.setAttribute("class", "initials visible");
+                verdictTextInit.textContent = "Incorrect / Ran out of time!";
+                timeSpan.textContent = "0";
+                scoreSpan.textContent = "0";
+                clearInterval(timer);
+                return;
+            }
+            timeSpan.textContent = quizTime;
         }
     } else if (element.matches('button')) {
         var newData = element.textContent.trim();
-
-        switch (newData[0]) {
-            case "1":
-                if (questions[currentQ-1].answer === button1.textContent) {
-                            verdictValue = "Correct!"
-                } else {
-                    verdictValue = "Incorrect";
-                    quizTime -= 10;
-                }
-                break;
-
-            case "2":
-                if (questions[currentQ-1].answer === button2.textContent) {
-                    verdictValue = "Correct!"
-                } else {
-                    verdictValue = "Incorrect";
-                    quizTime -= 10;
-                }
-                break;
-
-            case "3":
-                if (questions[currentQ-1].answer === button3.textContent) {
-                    verdictValue = "Correct!"         
-                } else {
-                    verdictValue = "Incorrect";
-                    quizTime -= 10;
-                }
-                break;
-
-            case "4":
-                if (questions[currentQ-1].answer === button4.textContent) {
-                    verdictValue = "Correct!"             
-                } else {
-                    verdictValue = "Incorrect";
-                    quizTime -= 10;
-                }
-                break;
+        var slicedData = newData.slice(3);
+        if (questions[currentQ-1].answer === slicedData) {
+            verdictValue = "Correct!"
+        } else {
+            verdictValue = "Incorrect";
+            quizTime -= 10; // look into how to make this function immediately subtract
+            if (quizTime <= 0) {
+                QuesPage.setAttribute("class", "questions invisible");
+                initPage.setAttribute("class", "initials visible");
+                verdictTextInit.textContent = "Incorrect / Ran out of time!";
+                timeSpan.textContent = "0";
+                scoreSpan.textContent = "0";
+                clearInterval(timer);
+                return;
+            }
+            timeSpan.textContent = quizTime;
         }
     }
-    
     // console.log(element);
     // my current idea is to have
 
@@ -182,5 +181,85 @@ buttonAction.addEventListener("click", function(event) {
     // then have the text in there
     currentQ++;
     setQuestion();
+})
+
+function showHighScores() {
+    initPage.setAttribute("class", "initials invisible");
+    // I could have the above line be called in the original function, then call showHighScores()
+    scoresPage.setAttribute("class", "high-scores visible")
+
+    var storedScores = JSON.parse(localStorage.getItem("highScores"));
+    console.log(storedScores[0]);
+    
+    if (storedScores === null) {
+        return;
+    }
+
+    while(scoresOrderedList.firstChild) {
+        scoresOrderedList.removeChild(scoresOrderedList.firstChild);
+    }
+    
+    for (var i = 0; i < storedScores.length; i++) {
+        var singularScore = storedScores[i];
+
+        var li = document.createElement("li");
+        //look into why I can't access JSON parsed objects by their original names
+        //Change the ol to have numerical indexes
+        li.textContent = (i + 1) + ". " + singularScore[0] + " - " + singularScore[1];
+        li.setAttribute("data-index", i);
+        scoresOrderedList.appendChild(li);
+    }
+}
+
+
+initialsForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+    if (initialsInput.value == "") {
+        return;
+    }
+    var scoresArray = [];
+    var individualScore = [
+        initialText = initialsInput.value,
+        score = scoreSpan.textContent,
+    ]
+    var holder = JSON.parse(localStorage.getItem("highScores"));
+    if (holder === null) {
+        scoresArray.push(individualScore);
+        
+    } else {
+        scoresArray = holder;
+        scoresArray.push(individualScore);
+    }
+    localStorage.setItem("highScores", JSON.stringify(scoresArray));
+    initialsInput.value = "";
+    showHighScores();
+    // 2 types of object arrays to be made
+    // one for the individual high score values, both the initials and the score itself
+    // one to be an array of said high score values
+    // take the existing array, copy it and add new values to it, then resave it
+    // check to see if an array is in local storage, if not, just make a new one and save it
+    // if there is, copy it over and add one score to it, then resave the new array over the original in local storage
+
+})
+
+backButton.addEventListener("click", function(event) {
+    scoresPage.setAttribute("class", "high-scores invisible");
+    mainPage.setAttribute("class", "title visible");
+    currentQ = 1;
+    quizTime = 75;
+    timeSpan.textContent = 75;
+    verdictSection.setAttribute("class", "verdict-box invisible")
+
+})
+
+clearButton.addEventListener("click", function(event) {    
+    while(scoresOrderedList.firstChild) {
+        scoresOrderedList.removeChild(scoresOrderedList.firstChild);
+    }
+    storedScores = null;
+    localStorage.removeItem("highScores");
+    
+    showHighScores();
+    
 })
 
