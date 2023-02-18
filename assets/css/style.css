@@ -5,6 +5,7 @@
     --dark: #351c75;
     --pink: #bd60e7;
     --text: #fdfafe;
+    --muted: #d9d3e9;
   }
 
   .head-top {
@@ -17,6 +18,11 @@
 
   .score-link {
     color: var(--pink);
+  }
+
+  .score-link:hover {
+    cursor: pointer;
+    text-decoration: underline;
   }
 
   .title {
@@ -63,10 +69,6 @@
     background-color: var(--pink);
 }
 
-
-
-
-
 /* questions */
 
 .questions {
@@ -89,8 +91,6 @@
   margin-bottom: 5px;
   font-size: 25px;
   text-align: left;
-
-  
 }
 
 .all-buttons:hover {
@@ -101,14 +101,11 @@
 .buttons{
   display: flex;
   flex-direction: column;
-  max-width: 25%;
-
-  
+  max-width: 25%;  
 }
 
 .verdict-box {
   border-top: 1px solid gray;
-  /* display: none; */
 }
 
 /* Initials Page */
@@ -126,7 +123,6 @@
 
 .initials-section {
   padding-bottom: 10px;
-  /* border-bottom: 1px solid grey; */
   margin-bottom: 5px;
   max-width: 100%;
 }
@@ -161,7 +157,6 @@ textarea {
   background-color: var(--pink);
 }
 
-
 .verdict {
   color: gray;
   font-style: italic;
@@ -173,8 +168,9 @@ textarea {
 .high-scores {
   display: flex;
   flex-direction: column;
-  margin-left: 20%;
+  margin-left: 32%;
   max-width: 55%;
+  margin-top: 5%;
 }
 
 .scores-section {
@@ -192,14 +188,22 @@ textarea {
   color: var(--text);
   font-size: 20px;
   text-align: left;
+  margin-right: 5px;
 }
 
 .score-buttons:hover {
   background-color: var(--pink);
 }
 
+#scores-list {
+  margin-bottom: 13px;
+}
+
 #scores-list li {
-  background-color: #bd60e7;
+  background-color: var(--muted);
+  padding: 10px 5px;
+  font-size: 25px;
+  max-width: 70%;
 }
 
 .invisible {

@@ -5,6 +5,10 @@ var QuesPage = document.querySelector(".questions");
 var initPage = document.querySelector(".initials");
 var scoresPage = document.querySelector(".high-scores");
 var buttonAction = document.querySelector(".buttons");
+var header = document.querySelector(".head-top");
+
+//View High Scores link
+var viewScores = document.querySelector(".score-link");
 
 // selectors and related for the question text
 var questionTitle = document.querySelector("#QuesTitle");
@@ -79,10 +83,15 @@ var questions = [
     }
 ]
 
+viewScores.addEventListener("click", function(event) {
+    showHighScores();
+    clearInterval(timer);
+})
+
 
 // possibly have an endgame function to be called in multiple places
 
-function setQuestion() { //currentQ, buttonArray not sure if necessary to add those as inputs
+function setQuestion() { 
     if (currentQ > questions.length) {
         QuesPage.setAttribute("class", "questions invisible");
         initPage.setAttribute("class", "initials visible");
@@ -174,37 +183,37 @@ buttonAction.addEventListener("click", function(event) {
             timeSpan.textContent = quizTime;
         }
     }
-    // console.log(element);
-    // my current idea is to have
-
-    // set the upper border on a DIV below the question box
-    // then have the text in there
     currentQ++;
     setQuestion();
 })
 
 function showHighScores() {
+    mainPage.setAttribute("class", "title invisible");
+    QuesPage.setAttribute("class", "questions invisible");
     initPage.setAttribute("class", "initials invisible");
+
     // I could have the above line be called in the original function, then call showHighScores()
     scoresPage.setAttribute("class", "high-scores visible")
+    header.setAttribute("class", "head-top invisible");
 
     var storedScores = JSON.parse(localStorage.getItem("highScores"));
-    console.log(storedScores[0]);
     
-    if (storedScores === null) {
-        return;
-    }
-
     while(scoresOrderedList.firstChild) {
         scoresOrderedList.removeChild(scoresOrderedList.firstChild);
     }
     
+    if (storedScores == null) {
+        var li = document.createElement("li");
+        li.textContent = "There are no high scores yet."
+        li.setAttribute("data-index", i);
+        scoresOrderedList.appendChild(li);
+        return;
+    }
+
     for (var i = 0; i < storedScores.length; i++) {
         var singularScore = storedScores[i];
-
         var li = document.createElement("li");
         //look into why I can't access JSON parsed objects by their original names
-        //Change the ol to have numerical indexes
         li.textContent = (i + 1) + ". " + singularScore[0] + " - " + singularScore[1];
         li.setAttribute("data-index", i);
         scoresOrderedList.appendChild(li);
@@ -233,18 +242,12 @@ initialsForm.addEventListener("submit", function(event) {
     localStorage.setItem("highScores", JSON.stringify(scoresArray));
     initialsInput.value = "";
     showHighScores();
-    // 2 types of object arrays to be made
-    // one for the individual high score values, both the initials and the score itself
-    // one to be an array of said high score values
-    // take the existing array, copy it and add new values to it, then resave it
-    // check to see if an array is in local storage, if not, just make a new one and save it
-    // if there is, copy it over and add one score to it, then resave the new array over the original in local storage
-
 })
 
 backButton.addEventListener("click", function(event) {
     scoresPage.setAttribute("class", "high-scores invisible");
     mainPage.setAttribute("class", "title visible");
+    header.setAttribute("class", "head-top visible")
     currentQ = 1;
     quizTime = 75;
     timeSpan.textContent = 75;
@@ -253,12 +256,15 @@ backButton.addEventListener("click", function(event) {
 })
 
 clearButton.addEventListener("click", function(event) {    
+    if (scoresOrderedList.length == 0) {
+        return;
+    }
+    
     while(scoresOrderedList.firstChild) {
         scoresOrderedList.removeChild(scoresOrderedList.firstChild);
     }
     storedScores = null;
     localStorage.removeItem("highScores");
-    
     showHighScores();
     
 })
