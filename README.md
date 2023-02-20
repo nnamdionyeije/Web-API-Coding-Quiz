@@ -6,7 +6,10 @@ This appliication is a coding quiz to test the user's knowledge of JavaScript. T
 
 ## Screenshot
 
-![A screenshot of my JavaScript coding quiz](./assets/images/coding-quiz-screenshot.png)
+![A screenshot of the main page of my JavaScript coding quiz](./assets/images/coding-quiz-screenshot.png)
+![A screenshot of the question setup](./assets/images/coding-quiz-screenshot2.png)
+![A screenshot of the page to submit your score and initials](./assets/images/coding-quiz-screenshot3.png)
+![A screenshot of quiz's high score page](./assets/images/coding-quiz-screenshot4.png)
 
 ## Usage
 
